@@ -26,7 +26,7 @@ We aim to contribute an APR technique toward Verilog programs that leverages sig
 Use the following command to download the artifact repository:
 
 ```
-git clone https://github.com/hejy47/Strider.git
+git clone --recursive https://github.com/hejy47/Strider.git
 ```
 
 ### 2.2. Configuration
@@ -95,3 +95,7 @@ STRIDER
 ```
 
 P.S. The dataset of `cirfix_benchmarks` is from [the benchmark of CirFix](https://github.com/hammad-a/verilog_repair/tree/master/benchmarks)
+
+## 4. LICENSE
+
+The repository is licensed under the [GNU GPLv3 license](https://www.gnu.org/licenses/gpl-3.0-standalone.html). See [LICENSE](./LICENSE) for details.
