@@ -1,0 +1,14 @@
+benchmarks/*
+!benchmarks/cirfix_benchmarks.conf
+!benchmarks/cirfix_benchmarks.zip
+workdir/*
+logs/*
+!.gitkeep
+**/.vscode
+**/__pycache__
+**/csrc
+**/simv.daidir
+**/simv
+**/ucli.key
+**/parser.out
+**/parsetab.py
