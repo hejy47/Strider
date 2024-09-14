@@ -26,7 +26,7 @@ We aim to contribute an APR technique toward Verilog programs that leverages sig
 Use the following command to download the artifact repository:
 
 ```
-git clone --recursive https://github.com/hejy47/Strider.git
+git clone --recursive git@github.com:hejy47/Strider.git
 ```
 
 ### 2.2. Configuration
