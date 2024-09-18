@@ -80,7 +80,7 @@ def locate(benchmark, bugInfo, logger):
     tmpInputSignalValues.update(tmpInputInternalSignalValues)
 
     logger.info("Locating suspicious df nodes.")
-    locator = Locator(timeStamp, mismatchSignals, bindDicts, terms, parameters, moduleInfo)
+    locator = Locator(timeStamp, mismatchSignals, allBindDicts, allTerms, allParameters, moduleInfo)
     locator.locate(tmpInputSignalValues, tmpOracleSignalValue)
     suspiciousNodeIds = locator.getSpsNodeIds()
     suspiciousLinenos = AstAnalyzer.getSpsLineno(ast, suspiciousNodeIds, fileToModulesMap, lineGapMap)
