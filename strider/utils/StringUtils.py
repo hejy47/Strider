@@ -31,9 +31,9 @@ def mapLineGapAfterProcess(args):
     for srcFile in args["filelist"]:
         srcFileContent = FileUtils.readFileToStr(srcFile)
         # tmpModuleContent = re.search("module .*?\(.*?\) *;", srcFileContent, re.S)[0]
-        result = re.search("module .*?\(.*?\) *;", srcFileContent, re.S)
+        result = re.search("(module[ |\t].*?)\(.*?\) *;", srcFileContent, re.S)
         if result == None: continue
-        tmpModuleContent = result[0]
+        tmpModuleContent = result[1]
         assert tmpModuleContent in allFileContent
         index1, index2 = srcFileContent.index(tmpModuleContent), allFileContent.index(tmpModuleContent)
         lineno1, lineno2 = srcFileContent[:index1].count("\n"), allFileContent[:index2].count("\n")
