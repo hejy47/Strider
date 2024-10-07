@@ -310,8 +310,30 @@ def traverseDataflow(instance, tmpSignalValue, parameters, renameInfo, dfTree):
                 for value_i in binValue[2:]:
                     uorValue = uorValue or int(value_i)
             return uorValue, list(set(dfEP))
-        # else:
-        #     import pdb; pdb.set_trace()
+        elif dfTree.operator == "Sll":
+            dfVar, lEP = traverseDataflow(instance, tmpSignalValue, parameters, renameInfo, dfTree.nextnodes[0])
+            rValue, rEP = traverseDataflow(instance, tmpSignalValue, parameters, renameInfo, dfTree.nextnodes[1])
+            dfEP.extend(lEP+rEP)
+
+            if isinstance(dfVar, int):
+                dfVar = bin(dfVar)[2:]
+            dfVar = dfVar.replace("_", "")
+            if "'b" in dfVar: dfVar = dfVar[dfVar.index("'b")+2:]
+            rValue = SignalAnalyzer.converse(rValue)
+            retVar = dfVar[rValue:] + "0"*rValue
+            return "'b"+retVar, list(set(dfEP))
+        elif dfTree.operator == "Srl":
+            dfVar, lEP = traverseDataflow(instance, tmpSignalValue, parameters, renameInfo, dfTree.nextnodes[0])
+            rValue, rEP = traverseDataflow(instance, tmpSignalValue, parameters, renameInfo, dfTree.nextnodes[1])
+            dfEP.extend(lEP+rEP)
+
+            if isinstance(dfVar, int):
+                dfVar = bin(dfVar)[2:]
+            dfVar = dfVar.replace("_", "")
+            if "'b" in dfVar: dfVar = dfVar[dfVar.index("'b")+2:]
+            rValue = SignalAnalyzer.converse(rValue)
+            retVar = "0"*rValue + dfVar[:len(dfVar)-rValue]
+            return "'b"+retVar, list(set(dfEP))
     if isinstance(dfTree, DFConcat):
         concatValue = "'b"
         for n in dfTree.nextnodes:
@@ -360,6 +382,8 @@ def traverseDataflow(instance, tmpSignalValue, parameters, renameInfo, dfTree):
         dfVar = dfVar.replace("_", "")
         if "'b" in dfVar: dfVar = dfVar[dfVar.index("'b")+2:]
         lsbV, msbV = SignalAnalyzer.converse(lsbV), SignalAnalyzer.converse(msbV)
+        if lsbV > msbV:
+            lsbV, msbV = msbV, lsbV
         retVar = dfVar[::-1][lsbV:msbV+1][::-1]
         if retVar == "": retVar = (msbV-lsbV+1) * '0'
         return "'b"+retVar, list(set(dfEP))

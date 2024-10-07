@@ -60,9 +60,12 @@ def getMismatchSignal(oracleOutput, simOutput):
                 raise Exception("Inconsist signal.")
             else:
                 oraVal = oracleOutput[h][i]
-                simVal = simOutput[h][i]
-                if oraVal != simVal:
+                if i >= len(simOutput[h]):
                     mismatches.append(h)
+                else:
+                    simVal = simOutput[h][i]
+                    if oraVal != simVal:
+                        mismatches.append(h)
         if mismatches != []:
             t = i
             if "time" in oracleOutput:

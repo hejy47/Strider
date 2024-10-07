@@ -39,3 +39,13 @@ def mapLineGapAfterProcess(args):
         lineno1, lineno2 = srcFileContent[:index1].count("\n"), allFileContent[:index2].count("\n")
         fileLineMap[srcFile] = lineno2 - lineno1
     return fileLineMap
+
+def transferCode(newCode):
+    pattern = "\[([^:]*?):\\1\+([^:]*?)\]"
+    result = re.findall(pattern, newCode, re.DOTALL)
+    for r in result:
+        oriSnippet = "[{}:{}+{}]".format(r[0],r[0],r[1])
+        tSnippet = "[{}+:{}]".format(r[0],r[1])
+        assert oriSnippet in newCode
+        newCode = newCode.replace(oriSnippet, tSnippet, 1)
+    return newCode

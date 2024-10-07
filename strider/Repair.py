@@ -177,10 +177,6 @@ def repair(benchmark, bugInfo, logger):
                 moduless = "{}.{}".format(moduleInfo[instance], signal)
                 if moduless in posExpectedSignalValues:
                     ssTmpOracleSignalValues = copy.deepcopy(posExpectedSignalValues[moduless])
-            
-            # DEBUG
-            if ss == "tst_bench_top.i2c_slave.state" or ssTmpOracleSignalValues == []:
-                print("debug", ss)
                 
             # msPrevTmpInputSignalValue, msPostTmpInputSignalValue = prevTmpInputSignalValue[ms], postTmpInputSignalValue[ms]
             # msPrevTmpOracleSignalValue, msPostTmpOracleSignalValue= prevTmpOracleSignalValue[ms], postTmpOracleSignalValue[ms]
@@ -220,6 +216,7 @@ def repair(benchmark, bugInfo, logger):
             try:
                 for newAst in newAsts:
                     newCode = generator.visit(newAst)
+                    newCode = StringUtils.transferCode(newCode)
                     newCodes.append(newCode)
                     # logger.info("Validate candidate patched code:\n{}".format(newCode))
                 validateFlag, candidateSrcFiles = benchmark.validate(suspiciousFiles, newCodes)
